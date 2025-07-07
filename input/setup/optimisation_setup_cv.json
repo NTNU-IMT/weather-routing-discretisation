@@ -1,0 +1,16 @@
+{
+  "departure time": "2023-12-01 00:00",
+  "latest arrival time": "2023-12-31 00:00",
+  "maximum total energy kW": "math.inf",
+  "polar": "./input/ship/olsson.nc",
+  "waypoints": "./input/routes/brest-newyork.json",
+  "stop time at intermediate points, hours": 24,
+  "forward resolution km": 100,
+  "side resolution km": 50,
+  "number of side points": 20,
+  "number of adjacent points": 2,
+  "time discretization hours": 1,
+  "weather time resolution": 6,
+  "wind file": "./input/weather/2023-world-wind-1h-025deg.nc",
+  "wave file": "./input/weather/2023-world-wave-1h-025deg.nc"
+}

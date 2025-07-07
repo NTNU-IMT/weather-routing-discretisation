@@ -1,0 +1,13 @@
+basemap
+cdsapi
+matplotlib
+netCDF4
+numba
+numpy
+pandas
+scipy
+searoute
+shapely
+xarray
+cdsapi>=0.7.4
+
