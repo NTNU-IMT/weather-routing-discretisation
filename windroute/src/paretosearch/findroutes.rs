@@ -41,15 +41,17 @@ pub fn generate(
                 if cost[current][t_current].is_finite() {
                     assert!(
                         weather_twa[current][t_current].is_finite(),
-                        "Needs weather twa different from infinity at index [{}, {}]",
+                        "Invalid weather parameter: twa[{}, {}] = {}",
                         current,
-                        t_current
+                        t_current,
+                        weather_twa[current][t_current]
                     );
                     assert!(
                         weather_tws[current][t_current].is_finite(),
-                        "Needs weather tws different from infinity at index [{}, {}]",
+                        "Invalid weather parameter: tws[{}, {}] = {}",
                         current,
-                        t_current
+                        t_current,
+                        weather_tws[current][t_current]
                     );
                     let next: usize = graph[current][next_index];
                     let twa: f64 =
