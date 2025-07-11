@@ -3,7 +3,7 @@
 #
 # This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 # This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>. 
+# You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
 import ctypes
@@ -49,7 +49,6 @@ def rustify_input(
     # Removing nans or empty vectors and flattening the graph
     # Moreover, compute the degree of each node of the graph
     ####################################################
-    start_time = time.time()
     num_stages, stage_size = graph.shape
     start_point = (stage_size - 1) // 2
     end_point = (num_stages - 1) * stage_size + (stage_size - 1) // 2
@@ -61,14 +60,12 @@ def rustify_input(
     ####################################################
     # Only flattening the stop-time-matrix (optional)
     ####################################################
-    start_time = time.time()
     flatten_stop_time_matrix = stop_time_matrix.flatten()
 
     ####################################################
     # Extracting the lng and lat coordinates
     # Substituting nones with infinity
     ####################################################
-    start_time = time.time()
     lng = np.array([val[0] if val else np.inf for val in space_grid.flatten()])
     lat = np.array([val[1] if val else np.inf for val in space_grid.flatten()])
 
@@ -76,31 +73,20 @@ def rustify_input(
     # Flattening the reachability matrix
     # Order is: [flattened_graph_index][time]
     ####################################################
-    start_time = time.time()
     flatten_node_reachability_matrix = node_reachability_matrix.reshape(
         node_reachability_matrix.shape[0]*node_reachability_matrix.shape[1], node_reachability_matrix.shape[2]
     ).flatten().astype(dtype=bool)
 
     ####################################################
     # Flattening the weather grid and separating in its twa and tws components
-    # Substituting nones with infinity
     # Order is: [flattened_graph_index][time]
     # THIS IS THE SLOWEST PART IN TRANSFORMATION DUE TO THE DICTIONARY
     # Worth to not build the dictionary since the beginning to avoid the overhead
     ####################################################
-
-    flatten_twa = np.array([val if val else np.inf for val in weather_twa.reshape(
-        weather_twa.shape[0] * weather_twa.shape[1], weather_twa.shape[2]
-    ).flatten()])
-    flatten_tws = np.array([val if val else np.inf for val in weather_tws.reshape(
-        weather_tws.shape[0] * weather_tws.shape[1], weather_tws.shape[2]
-    ).flatten()])
-    flatten_wa = np.array([val if val else np.inf for val in weather_wa.reshape(
-        weather_wa.shape[0] * weather_wa.shape[1], weather_wa.shape[2]
-    ).flatten()])
-    flatten_hs = np.array([val if val else np.inf for val in weather_hs.reshape(
-        weather_hs.shape[0] * weather_hs.shape[1], weather_hs.shape[2]
-    ).flatten()])
+    flatten_twa = weather_twa.reshape(weather_twa.shape[0] * weather_twa.shape[1], weather_twa.shape[2]).flatten()
+    flatten_tws = weather_tws.reshape(weather_tws.shape[0] * weather_tws.shape[1], weather_tws.shape[2]).flatten()
+    flatten_wa = weather_wa.reshape(weather_wa.shape[0] * weather_wa.shape[1], weather_wa.shape[2]).flatten()
+    flatten_hs = weather_hs.reshape(weather_hs.shape[0] * weather_hs.shape[1], weather_hs.shape[2]).flatten()
 
     ####################################################
     # Transforming modes into an ordered list and separating in its speed and power components
@@ -165,7 +151,7 @@ def solve_with_rust(rust_input):
         ctypes.c_size_t(modes_shape2),  # Mode index 24
         ctypes.c_size_t(modes_shape3),
         ctypes.c_size_t(modes_shape4),
-        
+
 
         ctypes.c_size_t(start_point),  # Starting point
         ctypes.c_size_t(end_point),  # Ending point
