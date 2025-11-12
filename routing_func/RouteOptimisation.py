@@ -278,7 +278,7 @@ class RouteOptimisation():
             for j in range(self.space_grid.shape[1]):
                 if self.space_grid[i, j]:
                     for k in range(self.n_time_steps):
-                        self.weather_wa[i, j, k] = weather_array_dict['data_vars']['mwd']['data'][k][point]
+                        self.weather_wa[i, j, k] = math.radians(weather_array_dict['data_vars']['mwd']['data'][k][point]) % math.pi
                         self.weather_hs[i, j, k] = weather_array_dict['data_vars']['swh']['data'][k][point]
                     point += 1
 
@@ -446,3 +446,11 @@ class RouteOptimisation():
             for j in range(self.space_grid.shape[1]):
                 if not self.graph[i, j]:
                     self.space_grid[i, j] = None
+
+    def count_spatial_edges(self):
+        n_edges = 0
+        for i in range(0,self.graph.shape[0]-1):
+            for j in range(self.graph.shape[1]):
+                if self.space_grid[i,j]:
+                    n_edges += len(self.space_grid[i,j])
+        return n_edges
