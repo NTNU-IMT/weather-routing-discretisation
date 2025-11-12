@@ -4,7 +4,7 @@
 
 This repository contains the routing program and test cases used for an article with the same title as this readme document. The purpose is to show the algorithm and specific settings used in the article. 
 
-The article can be found at the following link:
+The article can be found at the following link: https://onepetro.org/JST/article/10/01/352/793809/How-to-Discretise-a-Ship-s-Voyage-when-Optimising
 
 The routing program is written in Python and Rust. It is designed to optimise route and engine power allocation for a ship with primary wind propulsion and uses a grid-based 3D Dynamic Programming method. The test cases are set up to evaluate the effect of discretisation on the solutions.
 
